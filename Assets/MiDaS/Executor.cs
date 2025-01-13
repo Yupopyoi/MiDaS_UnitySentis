@@ -61,7 +61,7 @@ namespace ML_Runner
             _postProcessComputeShader.SetBuffer(_kernel, "ColorOutput", _outputBuffer);
             _postProcessComputeShader.SetInt("InputDataNum", _outputWidth * _outputWidth);
             _postProcessComputeShader.SetFloat("MinDepth", 0f);
-            _postProcessComputeShader.SetFloat("MaxDepth", 8192f);
+            _postProcessComputeShader.SetFloat("MaxDepth", 4096f);
 
             // Output RenderTexture
             _outputTexture = new(_outputWidth, _outputWidth, 0, RenderTextureFormat.ARGBFloat)
