@@ -16,6 +16,8 @@ namespace ML_Runner
         [Header("Input")]
         [SerializeField] Source.VideoProvider _textureProvider;
         [SerializeField] ModelAsset _modelAsset;
+
+        [Tooltip("The input size (width) of the model.")]
         [SerializeField] int _inputWidth = 384;
 
         Tensor<float> _input;
@@ -26,10 +28,17 @@ namespace ML_Runner
         bool _isTaskRunning = true;
 
         [Header("Output")]
+        [Tooltip("The output size (width) of the model. For depth estimation, this would be equal to _inputWidth.")]
         [SerializeField] int _outputWidth = 384;
+
         Tensor<float> _rawOutput;
         Tensor<float> _output;
         RenderTexture _outputTexture;
+
+        [Tooltip("Enter the maximum value of the model's output.\n" +
+                 "If you do not know the maximum value, discover a good value while changing the value.\n" +
+                 "4096.0 for MiDaS and 2.5 for Depth Anything V2 are recommended.")]
+        [SerializeField] float _maxOutputValue = 4096.0f;
 
         // PostProcess
         [Header("PostProcess")]
@@ -60,9 +69,9 @@ namespace ML_Runner
             _kernel = _postProcessComputeShader.FindKernel("CSMain");
             _postProcessComputeShader.SetBuffer(_kernel, "DepthInput", _inputBuffer);
             _postProcessComputeShader.SetBuffer(_kernel, "ColorOutput", _outputBuffer);
-            _postProcessComputeShader.SetInt("InputDataNum", _outputWidth * _outputWidth);
+            _postProcessComputeShader.SetInt("Width", _outputWidth);
             _postProcessComputeShader.SetFloat("MinDepth", 0f);
-            _postProcessComputeShader.SetFloat("MaxDepth", 4096f);
+            _postProcessComputeShader.SetFloat("MaxDepth", _maxOutputValue);
 
             // Output RenderTexture
             _outputTexture = new(_outputWidth, _outputWidth, 0, RenderTextureFormat.ARGBFloat)

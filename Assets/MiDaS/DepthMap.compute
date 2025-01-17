@@ -11,7 +11,7 @@ StructuredBuffer<float> DepthInput;
 RWStructuredBuffer<float> ColorOutput;
 
 // Parameters
-uint InputDataNum;
+uint Width;
 float MinDepth;
 float MaxDepth;
 
@@ -20,17 +20,20 @@ void CSMain(uint3 id : SV_DispatchThreadID)
 {   
     uint2 pixelCoord = id.xy;
 
-    uint index = pixelCoord.y * 384 + pixelCoord.x;
+    uint index = pixelCoord.y * Width + pixelCoord.x;
+    
+    if (index < Width * Width)
+    {
+        // Normalisation of depth values (scaled from 0.0 to 1.0)
+        float depth = DepthInput[index];
+        float normalizedDepth = saturate((depth - MinDepth) / (MaxDepth - MinDepth));
 
-    // Normalisation of depth values (scaled from 0.0 to 1.0)
-    float depth = DepthInput[index];
-    float normalizedDepth = saturate((depth - MinDepth) / (MaxDepth - MinDepth));
-
-    // Mapping Colors
-    float red = normalizedDepth;
-    float blue = 1.0 - normalizedDepth;
-    ColorOutput[InputDataNum * 0 + index] = red;
-    ColorOutput[InputDataNum * 1 + index] = 0.0f; // Green
-    ColorOutput[InputDataNum * 2 + index] = blue;
-    ColorOutput[InputDataNum * 3 + index] = 1.0f; // Alpha
+        // Mapping Colors
+        float red = normalizedDepth;
+        float blue = 1.0 - normalizedDepth;
+        ColorOutput[Width * Width * 0 + index] = red;
+        ColorOutput[Width * Width * 1 + index] = 0.0f; // Green
+        ColorOutput[Width * Width * 2 + index] = blue;
+        ColorOutput[Width * Width * 3 + index] = 1.0f; // Alpha   
+    }
 }
