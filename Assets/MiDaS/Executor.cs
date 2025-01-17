@@ -34,8 +34,8 @@ namespace ML_Runner
         // PostProcess
         [Header("PostProcess")]
         [SerializeField] ComputeShader _postProcessComputeShader;
-        ComputeBuffer _inputBuffer;
-        ComputeBuffer _outputBuffer;
+        GraphicsBuffer _inputBuffer;
+        GraphicsBuffer _outputBuffer;
         int _kernel;
 
         public UnityEvent<RenderTexture> OnInferenceCompleted;
@@ -52,8 +52,9 @@ namespace ML_Runner
             _rawOutput = new Tensor<float>(new TensorShape(1, 1 /* Depth Only  */ , _inputWidth, _inputWidth));
             _output    = new Tensor<float>(new TensorShape(1, 4 /* RGBA */        , 384, 384));
 
-            _inputBuffer  = new ComputeBuffer(_outputWidth * _outputWidth, sizeof(float));
-            _outputBuffer = new ComputeBuffer(_outputWidth * _outputWidth * 4 /* RGBA */, sizeof(float));
+            var type = GraphicsBuffer.Target.Index | GraphicsBuffer.Target.Raw;
+            _inputBuffer  = new GraphicsBuffer(type, _outputWidth * _outputWidth, sizeof(float));
+            _outputBuffer = new GraphicsBuffer(type, _outputWidth * _outputWidth * 4 /* RGBA */, sizeof(float));
 
             // Compute shader configuration.
             _kernel = _postProcessComputeShader.FindKernel("CSMain");
@@ -77,15 +78,13 @@ namespace ML_Runner
                 _inferencePending = true;
 
                 TextureConverter.ToTensor(_textureProvider.CameraTexture, _input, new TextureTransform());
-
+                
                 // Execute on the worker.(Non-blocking)
                 _worker.Schedule(_input);
-
                 _rawOutput = _worker.PeekOutput() as Tensor<float>;
 
                 // Return a copy of the result to the CPU asynchronously.
                 var awaiter = _rawOutput.ReadbackAndCloneAsync().GetAwaiter();
-
                 awaiter.OnCompleted(() =>
                 {
                     if (!_isTaskRunning) return;
@@ -96,15 +95,15 @@ namespace ML_Runner
                     // Debug.Log(string.Format("Output : ({0},{1},{2})" ,tensorOut.shape[0], tensorOut.shape[1], tensorOut.shape[2]));
 
                     tensorOut.Reshape(new TensorShape(1, tensorOut.shape[0], tensorOut.shape[1], tensorOut.shape[2]));
-
+                   
                     ConvertToDepthMap(tensorOut);
 
                     _outputTexture = TextureConverter.ToTexture(_output, _outputWidth, _outputWidth, 4  /* Channels (RGBA) */);
-
+                    
                     tensorOut.Dispose();
 
                     OnInferenceCompleted?.Invoke(_outputTexture);
-
+                    
                     _inferencePending = false;
                 });
             }
@@ -119,6 +118,9 @@ namespace ML_Runner
         {
             // Set data in input buffer.
             NativeArray<float> nativeOutput = output.DownloadToNativeArray();
+
+            // Use this Debug.Log if you want to know the size of the output.
+            // Debug.Log(nativeOutput.Length);
 
             _inputBuffer.SetData(nativeOutput);
 
