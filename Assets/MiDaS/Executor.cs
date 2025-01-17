@@ -48,9 +48,9 @@ namespace ML_Runner
             _worker = new Worker(_runtimeModel, BackendType.GPUCompute);
 
             // Allocate memory for Tensor / ComputeBuffer in advance.
-            _input     = new Tensor<float>(new TensorShape(1, 3 /* RGB */         , _inputWidth, _inputWidth));
-            _rawOutput = new Tensor<float>(new TensorShape(1, 1 /* Depth Only  */ , _inputWidth, _inputWidth));
-            _output    = new Tensor<float>(new TensorShape(1, 4 /* RGBA */        , 384, 384));
+            _input     = new Tensor<float>(new TensorShape(1, 3 /* RGB */         , _inputWidth,  _inputWidth));
+            _rawOutput = new Tensor<float>(new TensorShape(1, 1 /* Depth Only  */ , _inputWidth,  _inputWidth));
+            _output    = new Tensor<float>(new TensorShape(1, 4 /* RGBA */        , _outputWidth, _outputWidth));
 
             var type = GraphicsBuffer.Target.Index | GraphicsBuffer.Target.Raw;
             _inputBuffer  = new GraphicsBuffer(type, _outputWidth * _outputWidth, sizeof(float));
@@ -121,9 +121,9 @@ namespace ML_Runner
 
             // Use this Debug.Log if you want to know the size of the output.
             // Debug.Log(nativeOutput.Length);
-
+            
             _inputBuffer.SetData(nativeOutput);
-
+            
             // Execute the compute shader
             _postProcessComputeShader.Dispatch(_kernel, _outputWidth / 8, _outputWidth / 8, 1);
 
