@@ -34,7 +34,9 @@ Please put the downloaded onnx file in Assets folder of Unity.
 
 Register the model you just created in the ModelAsset of the Exector (component) attached to the Exector (object).  
 
-Now all you have to do is play the Unity project.
+![](https://github.com/Yupopyoi/MiDaS_UnitySentis/blob/main/DemoImage/RegisterModel.png)
+
+Now all you have to do is play the Unity project. ✨
 
 ## 日本語説明
 
@@ -58,7 +60,9 @@ MiDaSを利用した深度推定を、Unity.Sentisを用いて実行するサン
 
 #### 実行
 
-Exector (オブジェクト)にアタッチされている Exector（コンポーネント）の、ModelAssetに先ほどのモデルを登録してください。  
+Exector (オブジェクト)にアタッチされている Exector（コンポーネント）の、ModelAssetに先ほどのモデルを登録してください。
+
+![](https://github.com/Yupopyoi/MiDaS_UnitySentis/blob/main/DemoImage/RegisterModel.png)  
 
 あとは、Unityプロジェクトを再生するだけです。
 
