@@ -48,7 +48,7 @@ Get the model in onnx format on [this page](https://github.com/fabio-sim/Depth-A
 
 :construction: **Some models are not available.** Under investigation...  :construction:  
 
-Operates correctly when ```depth_anything_v2_vitb_indoor_dynamic.onnx``` is used.  
+I confirmed that it works correctly when using  ```depth_anything_v2_vitb_indoor_dynamic.onnx```.  
 
 The value of Input Width and Output Width should be **518**.
 
