@@ -38,6 +38,20 @@ Register the model you just created in the ModelAsset of the Exector (component)
 
 Now all you have to do is play the Unity project. ✨
 
+### Other Model?
+
+You can use other depth estimation models besides MiDaS by simply changing the settings.  
+
+#### Depth Anything V2
+
+Get the model in onnx format on [this page](https://github.com/fabio-sim/Depth-Anything-ONNX/releases/tag/v2.0.0).
+
+:construction: **Some models are not available.** Under investigation...  :construction:  
+
+Operates correctly when ```depth_anything_v2_vitb_indoor_dynamic.onnx``` is used.  
+
+The value of Input Width and Output Width should be **518**.
+
 ## 日本語説明
 
 MiDaSを利用した深度推定を、Unity.Sentisを用いて実行するサンプルプログラムです。
