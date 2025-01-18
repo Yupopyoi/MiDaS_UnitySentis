@@ -34,7 +34,7 @@ Please put the downloaded onnx file in Assets folder of Unity.
 
 Register the model you just created in the ModelAsset of the Exector (component) attached to the Exector (object).  
 
-![](https://github.com/Yupopyoi/MiDaS_UnitySentis/blob/main/DemoImage/RegisterModel.png)
+![RegisterModel](https://github.com/Yupopyoi/MiDaS_UnitySentis/blob/main/DemoImage/RegisterModel.png)
 
 Now all you have to do is play the Unity project. ✨
 
@@ -76,9 +76,21 @@ MiDaSを利用した深度推定を、Unity.Sentisを用いて実行するサン
 
 Exector (オブジェクト)にアタッチされている Exector（コンポーネント）の、ModelAssetに先ほどのモデルを登録してください。
 
-![](https://github.com/Yupopyoi/MiDaS_UnitySentis/blob/main/DemoImage/RegisterModel.png)  
+![RegisterModel](https://github.com/Yupopyoi/MiDaS_UnitySentis/blob/main/DemoImage/RegisterModel.png)  
 
 あとは、Unityプロジェクトを再生するだけです。
+
+### 他のモデルを使用する
+
+MiDaS以外の深度推定モデルでも、設定を変更することで使用できます。  
+
+#### Depth Anything V2
+
+[ここ](https://github.com/fabio-sim/Depth-Anything-ONNX/releases/tag/v2.0.0) から onnx 形式のモデルを入手します。  
+Sentisが対応していない部分もあるようで、使用できないモデルもあるようです。  
+とはいえ、最低限 ```depth_anything_v2_vitb_indoor_dynamic.onnx``` は使用できることを確認済みです。  
+なお、入力・出力サイズ（Input Width と Output Widt）は 518 に変更してください。  
+
 
 ### Qiita記事
 
