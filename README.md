@@ -52,6 +52,8 @@ I confirmed that it works correctly when using  ```depth_anything_v2_vitb_indoor
 
 The value of Input Width and Output Width should be **518**.
 
+![Depth Anything](https://github.com/Yupopyoi/MiDaS_UnitySentis/blob/main/DemoImage/DepthAnything.png)
+
 ## 日本語説明
 
 MiDaSを利用した深度推定を、Unity.Sentisを用いて実行するサンプルプログラムです。
@@ -89,8 +91,7 @@ MiDaS以外の深度推定モデルでも、設定を変更することで使用
 [ここ](https://github.com/fabio-sim/Depth-Anything-ONNX/releases/tag/v2.0.0) から onnx 形式のモデルを入手します。  
 Sentisが対応していない部分もあるようで、使用できないモデルもあるようです。  
 とはいえ、最低限 ```depth_anything_v2_vitb_indoor_dynamic.onnx``` は使用できることを確認済みです。  
-なお、入力・出力サイズ（Input Width と Output Widt）は 518 に変更してください。  
-
+なお、入力・出力サイズ（Input Width と Output Width）は 518 に変更してください。  
 
 ### Qiita記事
 
